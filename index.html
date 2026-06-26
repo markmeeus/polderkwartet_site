@@ -138,7 +138,7 @@
 
     .repertoire-list li {
       display: grid;
-      grid-template-columns: 9rem 1fr 1.5rem;
+      grid-template-columns: 9rem 1fr 2rem;
       gap: 1rem;
       align-items: center;
       padding: 0.75rem 0;
@@ -155,20 +155,33 @@
 
     .rep-title { font-style: italic; }
 
+    .repertoire-more {
+      margin-top: 1rem;
+      font-size: 0.65rem;
+      font-style: italic;
+      color: var(--dim);
+      letter-spacing: 0.12em;
+    }
+
     .rep-play {
       visibility: hidden;
       background: none;
-      border: none;
-      padding: 0;
+      border: 1.5px solid var(--dim);
+      border-radius: 50%;
+      width: 1.8rem;
+      height: 1.8rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       cursor: pointer;
       color: var(--dim);
-      font-size: 0.55rem;
-      line-height: 1;
-      transition: color 0.15s;
+      font-size: 0.6rem;
+      transition: color 0.15s, border-color 0.15s;
     }
 
-    .rep-play:hover { color: var(--rust); }
+    .rep-play:hover { color: var(--rust); border-color: var(--rust); }
 
+    .rep-play--active { visibility: visible; }
 
     /* ── footer ── */
 
@@ -217,7 +230,7 @@ footer { flex-direction: column; gap: 0.5rem; }
         <li>
           <span class="rep-composer">Fauré</span>
           <span class="rep-title">Pavane, Op. 50</span>
-          <button class="rep-play" aria-label="Play">&#9654;</button>
+          <button class="rep-play rep-play--active" aria-label="Play" data-track="tracks/pavane.mp3">&#9654;</button>
         </li>
         <li>
           <span class="rep-composer">Bach</span>
@@ -240,6 +253,7 @@ footer { flex-direction: column; gap: 0.5rem; }
           <button class="rep-play" aria-label="Play">&#9654;</button>
         </li>
       </ul>
+      <p class="repertoire-more">more to come</p>
     </section>
 
     <section id="contact">
@@ -258,5 +272,42 @@ footer { flex-direction: column; gap: 0.5rem; }
 
   </div>
 
+  <script>
+    const audio = new Audio();
+    let activeBtn = null;
+
+    document.querySelectorAll('.rep-play[data-track]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const isPlaying = activeBtn === btn && !audio.paused;
+
+        if (activeBtn && activeBtn !== btn) {
+          audio.pause();
+          activeBtn.innerHTML = '&#9654;';
+          activeBtn.setAttribute('aria-label', 'Play');
+        }
+
+        if (isPlaying) {
+          audio.pause();
+          btn.innerHTML = '&#9654;';
+          btn.setAttribute('aria-label', 'Play');
+        } else {
+          if (activeBtn !== btn) {
+            audio.src = btn.dataset.track;
+            activeBtn = btn;
+          }
+          audio.play();
+          btn.innerHTML = '&#9646;&#9646;';
+          btn.setAttribute('aria-label', 'Pause');
+        }
+      });
+    });
+
+    audio.addEventListener('ended', () => {
+      if (activeBtn) {
+        activeBtn.innerHTML = '&#9654;';
+        activeBtn.setAttribute('aria-label', 'Play');
+      }
+    });
+  </script>
 </body>
 </html>
