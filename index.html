@@ -114,10 +114,11 @@
     .band-name {
       font-size: clamp(3rem, 10vw, 7rem);
       font-weight: 700;
-      letter-spacing: -0.03em;
+      letter-spacing: 0.08em;
       line-height: 1.1;
       text-transform: uppercase;
       color: var(--paper);
+      text-shadow: 0 0 40px rgba(0,0,0,0.9), 0 0 80px rgba(0,0,0,0.6);
       text-align: center;
     }
 
@@ -155,6 +156,7 @@
     .rep-title { font-style: italic; }
 
     .rep-play {
+      visibility: hidden;
       background: none;
       border: none;
       padding: 0;
