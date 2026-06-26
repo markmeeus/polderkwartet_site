@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PolderKwartet</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --paper:  #e4dbc8;
+      --ink:    #18150f;
+      --rust:   #7a3d1f;
+      --slate:  #5a6b72;
+      --moss:   #3d4a38;
+      --dim:    #a09880;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { font-size: 16px; }
+
+    body {
+      background-color: var(--paper);
+      color: var(--ink);
+      font-family: 'Space Mono', monospace;
+      line-height: 1.6;
+      position: relative;
+    }
+
+    /* grain overlay */
+    body::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.72' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='400' height='400' filter='url(%23g)' opacity='0.18'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 999;
+      opacity: 1;
+      mix-blend-mode: multiply;
+    }
+
+    /* ── layout ── */
+
+    .container {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 0 2rem;
+    }
+
+    hr.rule {
+      border: none;
+      border-top: 2px solid var(--ink);
+      margin: 0;
+    }
+
+    hr.rule--thin {
+      border-top-width: 1px;
+      border-color: var(--dim);
+    }
+
+    /* ── hero ── */
+
+    .hero {
+      position: relative;
+      min-height: 42vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      border-bottom: 2px solid var(--ink);
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image: url('images/Meindert_Hobbema_001.jpg');
+      background-size: cover;
+      background-repeat: no-repeat;
+      background-position: center 66%;
+      filter: grayscale(0.55) contrast(1.05) brightness(0.95) sepia(0.15);
+      z-index: 0;
+    }
+
+    .hero-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        to bottom,
+        rgba(24, 21, 15, 0.5) 0%,
+        rgba(24, 21, 15, 0.05) 45%,
+        rgba(24, 21, 15, 0.6) 100%
+      );
+      z-index: 1;
+    }
+
+    .painting-caption {
+      position: relative;
+      z-index: 2;
+      font-size: 0.6rem;
+      letter-spacing: 0.15em;
+      color: rgba(228, 219, 200, 0.5);
+      text-align: right;
+      padding: 0 2rem 1.2rem;
+    }
+
+    header {
+      position: relative;
+      z-index: 2;
+      padding: 10rem 0 3rem;
+    }
+
+    .band-name {
+      font-size: clamp(3rem, 10vw, 7rem);
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      line-height: 1.1;
+      text-transform: uppercase;
+      color: var(--paper);
+      text-align: center;
+    }
+
+    /* ── sections ── */
+
+    section {
+      padding: 3.5rem 0;
+      border-bottom: 1px solid var(--dim);
+    }
+
+    /* ── repertoire ── */
+
+    .repertoire-list {
+      list-style: none;
+      border-top: 1px solid var(--dim);
+    }
+
+    .repertoire-list li {
+      display: grid;
+      grid-template-columns: 9rem 1fr 1.5rem;
+      gap: 1rem;
+      align-items: center;
+      padding: 0.75rem 0;
+      border-bottom: 1px solid var(--dim);
+      font-size: 0.82rem;
+    }
+
+    .rep-composer {
+      font-size: 0.65rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--rust);
+    }
+
+    .rep-title { font-style: italic; }
+
+    .rep-play {
+      background: none;
+      border: none;
+      padding: 0;
+      cursor: pointer;
+      color: var(--dim);
+      font-size: 0.55rem;
+      line-height: 1;
+      transition: color 0.15s;
+    }
+
+    .rep-play:hover { color: var(--rust); }
+
+
+    /* ── footer ── */
+
+    footer {
+      padding: 2.5rem 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      font-size: 0.62rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--dim);
+    }
+
+    /* ── responsive ── */
+
+    @media (max-width: 600px) {
+      .repertoire-list li {
+        grid-template-columns: 1fr 1fr;
+      }
+
+footer { flex-direction: column; gap: 0.5rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="hero">
+    <div class="hero-overlay"></div>
+    <header>
+      <div class="container">
+        <h1 class="band-name">
+          Polder<br>Kwartet
+        </h1>
+      </div>
+    </header>
+    <p class="painting-caption">
+      Meindert Hobbema &mdash; The Avenue at Middelharnis, 1689
+    </p>
+  </div>
+
+  <div class="container">
+
+    <section id="repertoire">
+      <ul class="repertoire-list">
+        <li>
+          <span class="rep-composer">Fauré</span>
+          <span class="rep-title">Pavane, Op. 50</span>
+          <button class="rep-play" aria-label="Play">&#9654;</button>
+        </li>
+        <li>
+          <span class="rep-composer">Bach</span>
+          <span class="rep-title">Arioso, BWV 1056</span>
+          <button class="rep-play" aria-label="Play">&#9654;</button>
+        </li>
+        <li>
+          <span class="rep-composer">Marcello</span>
+          <span class="rep-title">Oboe Concerto in D minor — II. Adagio</span>
+          <button class="rep-play" aria-label="Play">&#9654;</button>
+        </li>
+        <li>
+          <span class="rep-composer">Händel</span>
+          <span class="rep-title">Largo &ldquo;Ombra mai fu&rdquo; — Xerxes</span>
+          <button class="rep-play" aria-label="Play">&#9654;</button>
+        </li>
+        <li>
+          <span class="rep-composer">Beethoven</span>
+          <span class="rep-title">Piano Sonata No. 8 &ldquo;Pathétique&rdquo; — II. Adagio cantabile</span>
+          <button class="rep-play" aria-label="Play">&#9654;</button>
+        </li>
+      </ul>
+    </section>
+
+    <section id="contact">
+      <p style="font-size:0.82rem; line-height:1.75;">
+        For bookings and questions:<br>
+        <a href="mailto:info@polderkwartet.be" style="color:var(--rust); text-decoration:none; border-bottom: 1px solid var(--rust);">
+          info@polderkwartet.be
+        </a>
+      </p>
+    </section>
+
+    <footer>
+      <span>PolderKwartet</span>
+      <span>&copy; 2025</span>
+    </footer>
+
+  </div>
+
+</body>
+</html>
